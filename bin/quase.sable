@@ -1,0 +1,137 @@
+Package quase;
+
+Helpers
+	letra = ['a'..'z'] | ['A'..'Z'] | ['á'..'ú'] | ['à'..'ù'] | ['â'..'û'] | 'ã' | 'õ' | 'ç' | ['Á'..'Ú'] | ['À'..'Ù'] | ['Â'..'Û'] | 'Ã' | 'Õ' | 'Ç';
+	digito = ['0'..'9'];
+	char = [0..0xffff];
+	espaco = ' ';
+	rc = 13;
+	nl = 10;
+	com_esq = '{';
+	com_dir = '}';
+	und = '_';
+
+Tokens
+	e_comercial = '&';
+	ponto_virg = ';';
+	classe = 'classe';
+	filha_classe = 'filha da classe';
+	comeca = 'começa';
+	termina = 'termina';
+	obj = 'objeto';
+	virg = ',';
+	var = 'var';
+	cons = 'cons';
+	atr = ':=';
+	int_tipo = 'int';
+	bool_tipo = 'bool';
+	real_tipo = 'real';
+	det_proc_inicial = '=>';
+	proc = 'procedimento';
+	par_esq = '(';
+	par_dir = ')';
+	func = 'função';
+	se = 'se';
+	senao = 'senão';
+	enquanto = 'enquanto';
+	igual_simples = '=';
+	ponto = '.';
+	bool_verdadeiro = 'true';
+	bool_falso = 'false';
+	subt = '-';
+	entao = 'então';
+	adc = '+';
+	mult = '*';
+	div = '/';
+	mod = '%';
+	igual_comp = '==';
+	menor = '<';
+	nao = '!';
+	e_logico = 'e';
+	ou_logico = 'ou';
+	comentario = com_esq[char - [com_esq + com_dir]]*com_dir;
+	id = letra(letra | und)*;
+	cid = und(letra | und)*;
+	vazio = (espaco | rc | nl)+;
+	num_inteiro = digito+ | ('0b'('1' | '0')+);
+	num_real = (digito+'.'digito+) | (digito+('e' | 'E')('-' | digito)digito*);
+	
+Ignored Tokens
+	comentario,
+	vazio;
+	
+Productions
+
+	programa = familia def_classe+;
+	
+	familia = {familia} relacao familia_aux* ponto_virg
+		| {vazio};
+	familia_aux = e_comercial relacao;
+	relacao = classe cid comeca atributos metodos termina;
+	
+	def_classe = classe cid comeca atributos metodos termina;
+	
+	atributos = dec_aux*;
+	dec_aux = {dec_obj} dec_obj
+		| {dec_var} dec_var
+		| {dec_cons} dec_cons;
+	
+	metodos = metodos_aux*;
+	metodos_aux = {dec_procedimento} dec_procedimento
+		| {dec_funcao} dec_funcao;
+			
+	dec_obj = obj cid id virg_id_aux* ponto_virg;
+	dec_var = var tipo id virg_id_aux* ponto_virg;
+	virg_id_aux = virg id;
+	dec_cons = cons tipo_primitivo inicializacao virg_inicializacao_aux* ponto_virg;
+	virg_inicializacao_aux = virg inicializacao;
+	inicializacao = id atr exp;
+	
+	tipo = {tipo_classe} tipo_classe
+		| {tipo_primitivo} tipo_primitivo;
+	tipo_primitivo = {int} int_tipo
+		| {bool} bool_tipo
+		| {real} real_tipo;
+	tipo_classe = cid;
+	
+	dec_procedimento = det_proc_inicial? proc id par_esq parametros par_dir comando;
+	dec_funcao = func tipo id par_esq parametros par_dir exp;
+	parametros = {vazio}
+		| {parametros} parametro virg_parametro_aux*;
+	virg_parametro_aux = virg parametro;
+	parametro = tipo id;
+	comando = {if_only} se par_esq exp par_dir comando
+		| {if_else} se par_esq exp par_dir [left]:comando senao [right]:comando
+		| {while} par_esq exp par_dir comando
+		| {atr} id igual_simples exp ponto_virg
+		| {chamada} id_ponto_aux? chamada ponto_virg
+		| {bloco} bloco;
+	id_ponto_aux = id ponto;
+	
+	bloco = comeca dec_aux* comando* termina ;
+	exp = {real} num_real 
+		| {int} num_inteiro 
+		| {true} bool_verdadeiro 
+		| {false} bool_falso
+		| {id} id
+		| {chamada} id_ponto_aux? chamada ponto_virg
+		| {atributo} id_ponto_aux? atributos ponto_virg
+		| {par} par_esq exp par_dir
+		| {subt_part} subt exp
+		| {if} se par_esq [left]:exp par_dir entao [mid]:exp senao [right]:exp
+		| {adc} [left]:exp adc [right]:exp
+		| {subt} [left]:exp subt [right]:exp
+		| {mult} [left]:exp mult [right]:exp
+		| {div} [left]:exp div [right]:exp
+		| {mod} [left]:exp mod [right]:exp
+		| {igual} [left]:exp igual_comp [right]:exp
+		| {menor} [left]:exp menor [right]:exp
+		| {nao} nao exp
+		| {and} [left]:exp e_logico [right]:exp
+		| {or} [left]:exp ou_logico [right]:exp
+		| {bloco_exp} bloco_exp;
+	bloco_exp = comeca dec_cons* exp termina;
+	chamada = id par_esq lista_exp par_dir;
+	lista_exp = {vazio}
+		| {lista_exp} exp virg_exp_aux* ;
+	virg_exp_aux = virg exp;

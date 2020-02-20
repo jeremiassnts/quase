@@ -1,0 +1,40 @@
+{ potenciação }
+função real potenciacao (real base, int potencia)
+    se (poténcia == 0) então 1.0
+    senão base * potenciacao(base, potencia - 1)
+{ fatorial }
+função int fatorial (int n)
+    se (n == 0) então 1
+    senão n * fatorial(n - 1)
+{ área de retângulo }
+função real area_retangulo (real lado_a, real lado_b)
+    lado_a * lado_b
+{ área de círculo }
+função real area_circulo (real raio)
+    começa
+    cons real pi := 3.14;
+    pi * raio * raio
+    termina
+    
+    
+    
+    
+    
+    exp = {real} num_real 
+		| {int} num_inteiro 
+		| {true} bool_verdadeiro 
+		| {false} bool_falso
+		| {id} id
+		| {par} par_esq exp par_dir
+		| {subt_part} subt exp
+		| {if} se par_esq [left]:exp par_dir entao [mid]:exp senao [right]:exp
+		| {adc} [left]:exp adc [right]:exp;
+		| {subt} [left]:exp subt [right]:exp;
+		| {mult} [left]:exp mult [right]:exp
+		| {div} [left]:exp div [right]:exp
+		| {mod} [left]:exp mod [right]:exp
+		| {igual} [left]:exp igual_comp [right]:exp
+		| {menor} [left]:exp menor [right]:exp
+		| {nao} nao exp
+		| {and} [left]:exp e_logico [right]:exp
+		| {or} [left]:exp ou_logico [right]:exp
