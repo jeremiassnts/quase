@@ -9,6 +9,7 @@ public final class ASubtPartExp extends PExp
 {
     private TSubt _subt_;
     private PExp _exp_;
+    private PExp1 _exp1_;
 
     public ASubtPartExp()
     {
@@ -17,12 +18,15 @@ public final class ASubtPartExp extends PExp
 
     public ASubtPartExp(
         @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp _exp_)
+        @SuppressWarnings("hiding") PExp _exp_,
+        @SuppressWarnings("hiding") PExp1 _exp1_)
     {
         // Constructor
         setSubt(_subt_);
 
         setExp(_exp_);
+
+        setExp1(_exp1_);
 
     }
 
@@ -31,7 +35,8 @@ public final class ASubtPartExp extends PExp
     {
         return new ASubtPartExp(
             cloneNode(this._subt_),
-            cloneNode(this._exp_));
+            cloneNode(this._exp_),
+            cloneNode(this._exp1_));
     }
 
     @Override
@@ -90,12 +95,38 @@ public final class ASubtPartExp extends PExp
         this._exp_ = node;
     }
 
+    public PExp1 getExp1()
+    {
+        return this._exp1_;
+    }
+
+    public void setExp1(PExp1 node)
+    {
+        if(this._exp1_ != null)
+        {
+            this._exp1_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._exp1_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
             + toString(this._subt_)
-            + toString(this._exp_);
+            + toString(this._exp_)
+            + toString(this._exp1_);
     }
 
     @Override
@@ -111,6 +142,12 @@ public final class ASubtPartExp extends PExp
         if(this._exp_ == child)
         {
             this._exp_ = null;
+            return;
+        }
+
+        if(this._exp1_ == child)
+        {
+            this._exp1_ = null;
             return;
         }
 
@@ -130,6 +167,12 @@ public final class ASubtPartExp extends PExp
         if(this._exp_ == oldChild)
         {
             setExp((PExp) newChild);
+            return;
+        }
+
+        if(this._exp1_ == oldChild)
+        {
+            setExp1((PExp1) newChild);
             return;
         }
 

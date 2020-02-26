@@ -8,8 +8,7 @@ import quase.analysis.*;
 public final class AAdcExp extends PExp
 {
     private PExp _left_;
-    private TAdc _adc_;
-    private PExp _right_;
+    private PExp1 _exp1_;
 
     public AAdcExp()
     {
@@ -18,15 +17,12 @@ public final class AAdcExp extends PExp
 
     public AAdcExp(
         @SuppressWarnings("hiding") PExp _left_,
-        @SuppressWarnings("hiding") TAdc _adc_,
-        @SuppressWarnings("hiding") PExp _right_)
+        @SuppressWarnings("hiding") PExp1 _exp1_)
     {
         // Constructor
         setLeft(_left_);
 
-        setAdc(_adc_);
-
-        setRight(_right_);
+        setExp1(_exp1_);
 
     }
 
@@ -35,8 +31,7 @@ public final class AAdcExp extends PExp
     {
         return new AAdcExp(
             cloneNode(this._left_),
-            cloneNode(this._adc_),
-            cloneNode(this._right_));
+            cloneNode(this._exp1_));
     }
 
     @Override
@@ -70,16 +65,16 @@ public final class AAdcExp extends PExp
         this._left_ = node;
     }
 
-    public TAdc getAdc()
+    public PExp1 getExp1()
     {
-        return this._adc_;
+        return this._exp1_;
     }
 
-    public void setAdc(TAdc node)
+    public void setExp1(PExp1 node)
     {
-        if(this._adc_ != null)
+        if(this._exp1_ != null)
         {
-            this._adc_.parent(null);
+            this._exp1_.parent(null);
         }
 
         if(node != null)
@@ -92,32 +87,7 @@ public final class AAdcExp extends PExp
             node.parent(this);
         }
 
-        this._adc_ = node;
-    }
-
-    public PExp getRight()
-    {
-        return this._right_;
-    }
-
-    public void setRight(PExp node)
-    {
-        if(this._right_ != null)
-        {
-            this._right_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._right_ = node;
+        this._exp1_ = node;
     }
 
     @Override
@@ -125,8 +95,7 @@ public final class AAdcExp extends PExp
     {
         return ""
             + toString(this._left_)
-            + toString(this._adc_)
-            + toString(this._right_);
+            + toString(this._exp1_);
     }
 
     @Override
@@ -139,15 +108,9 @@ public final class AAdcExp extends PExp
             return;
         }
 
-        if(this._adc_ == child)
+        if(this._exp1_ == child)
         {
-            this._adc_ = null;
-            return;
-        }
-
-        if(this._right_ == child)
-        {
-            this._right_ = null;
+            this._exp1_ = null;
             return;
         }
 
@@ -164,15 +127,9 @@ public final class AAdcExp extends PExp
             return;
         }
 
-        if(this._adc_ == oldChild)
+        if(this._exp1_ == oldChild)
         {
-            setAdc((TAdc) newChild);
-            return;
-        }
-
-        if(this._right_ == oldChild)
-        {
-            setRight((PExp) newChild);
+            setExp1((PExp1) newChild);
             return;
         }
 

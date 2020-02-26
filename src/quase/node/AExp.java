@@ -7,7 +7,7 @@ import quase.analysis.*;
 @SuppressWarnings("nls")
 public final class AExp extends PExp
 {
-    private TId _id_;
+    private PExp1 _exp1_;
 
     public AExp()
     {
@@ -15,10 +15,10 @@ public final class AExp extends PExp
     }
 
     public AExp(
-        @SuppressWarnings("hiding") TId _id_)
+        @SuppressWarnings("hiding") PExp1 _exp1_)
     {
         // Constructor
-        setId(_id_);
+        setExp1(_exp1_);
 
     }
 
@@ -26,7 +26,7 @@ public final class AExp extends PExp
     public Object clone()
     {
         return new AExp(
-            cloneNode(this._id_));
+            cloneNode(this._exp1_));
     }
 
     @Override
@@ -35,16 +35,16 @@ public final class AExp extends PExp
         ((Analysis) sw).caseAExp(this);
     }
 
-    public TId getId()
+    public PExp1 getExp1()
     {
-        return this._id_;
+        return this._exp1_;
     }
 
-    public void setId(TId node)
+    public void setExp1(PExp1 node)
     {
-        if(this._id_ != null)
+        if(this._exp1_ != null)
         {
-            this._id_.parent(null);
+            this._exp1_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AExp extends PExp
             node.parent(this);
         }
 
-        this._id_ = node;
+        this._exp1_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._id_);
+            + toString(this._exp1_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._id_ == child)
+        if(this._exp1_ == child)
         {
-            this._id_ = null;
+            this._exp1_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._id_ == oldChild)
+        if(this._exp1_ == oldChild)
         {
-            setId((TId) newChild);
+            setExp1((PExp1) newChild);
             return;
         }
 

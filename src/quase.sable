@@ -62,76 +62,8 @@ Ignored Tokens
 	
 Productions
 
-	programa = familia def_classe+;
-	
-	familia = {familia} relacao familia_aux* ponto_virg
-		| {vazio};
-	familia_aux = e_comercial relacao;
-	relacao = classe cid comeca atributos metodos termina;
-	
-	def_classe = classe cid comeca atributos metodos termina;
-	
-	atributos = dec_aux*;
-	dec_aux = {dec_obj} dec_obj
-		| {dec_var} dec_var
-		| {dec_cons} dec_cons;
-	
-	metodos = metodos_aux*;
-	metodos_aux = {dec_procedimento} dec_procedimento
-		| {dec_funcao} dec_funcao;
-			
-	dec_obj = obj cid id virg_id_aux* ponto_virg;
-	dec_var = var tipo id virg_id_aux* ponto_virg;
-	virg_id_aux = virg id;
-	dec_cons = cons tipo_primitivo inicializacao virg_inicializacao_aux* ponto_virg;
-	virg_inicializacao_aux = virg inicializacao;
-	inicializacao = id atr exp;
-	
-	tipo = {tipo_classe} tipo_classe
-		| {tipo_primitivo} tipo_primitivo;
-	tipo_primitivo = {int} int_tipo
-		| {bool} bool_tipo
-		| {real} real_tipo;
-	tipo_classe = cid;
-	
-	dec_procedimento = det_proc_inicial? proc id par_esq parametros par_dir comando;
-	dec_funcao = func tipo id par_esq parametros par_dir exp;
-	parametros = {vazio}
-		| {parametros} parametro virg_parametro_aux*;
-	virg_parametro_aux = virg parametro;
-	parametro = tipo id;
-	comando = {if_only} se par_esq exp par_dir comando
-		| {if_else} se par_esq exp par_dir [left]:comando senao [right]:comando
-		| {while} par_esq exp par_dir comando
-		| {atr} id igual_simples exp ponto_virg
-		| {chamada} id_ponto_aux? chamada ponto_virg
-		| {bloco} bloco;
-	id_ponto_aux = id ponto;
-	
-	bloco = comeca dec_aux* comando* termina ;
-	exp = {real} num_real 
-		| {int} num_inteiro 
-		| {true} bool_verdadeiro 
-		| {false} bool_falso
-		| {id} id
-		| {chamada} id_ponto_aux? chamada ponto_virg
-		| {atributo} id_ponto_aux? atributos ponto_virg
-		| {par} par_esq exp par_dir
-		| {subt_part} subt exp
-		| {if} se par_esq [left]:exp par_dir entao [mid]:exp senao [right]:exp
-		| {adc} [left]:exp adc [right]:exp
-		| {subt} [left]:exp subt [right]:exp
-		| {mult} [left]:exp mult [right]:exp
-		| {div} [left]:exp div [right]:exp
-		| {mod} [left]:exp mod [right]:exp
-		| {igual} [left]:exp igual_comp [right]:exp
-		| {menor} [left]:exp menor [right]:exp
-		| {nao} nao exp
-		| {and} [left]:exp e_logico [right]:exp
-		| {or} [left]:exp ou_logico [right]:exp
-		| {bloco_exp} bloco_exp;
-	bloco_exp = comeca dec_cons* exp termina;
-	chamada = id par_esq lista_exp par_dir;
-	lista_exp = {vazio}
-		| {lista_exp} exp virg_exp_aux* ;
-	virg_exp_aux = virg exp;
+	exp = exp1
+		| {subt_part} subt exp exp1
+		| {adc} [left]:exp exp1;
+	exp1 = {subt_part}
+		| {adc} adc [right]:exp;
