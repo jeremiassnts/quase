@@ -5,51 +5,51 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtPartExp1 extends PExp1
+public final class AChamadaExp6 extends PExp6
 {
-    private TSubt _subt_;
-    private PExp2 _exp2_;
+    private PIdPontoAux _idPontoAux_;
+    private PChamada _chamada_;
 
-    public ASubtPartExp1()
+    public AChamadaExp6()
     {
         // Constructor
     }
 
-    public ASubtPartExp1(
-        @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp2 _exp2_)
+    public AChamadaExp6(
+        @SuppressWarnings("hiding") PIdPontoAux _idPontoAux_,
+        @SuppressWarnings("hiding") PChamada _chamada_)
     {
         // Constructor
-        setSubt(_subt_);
+        setIdPontoAux(_idPontoAux_);
 
-        setExp2(_exp2_);
+        setChamada(_chamada_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASubtPartExp1(
-            cloneNode(this._subt_),
-            cloneNode(this._exp2_));
+        return new AChamadaExp6(
+            cloneNode(this._idPontoAux_),
+            cloneNode(this._chamada_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtPartExp1(this);
+        ((Analysis) sw).caseAChamadaExp6(this);
     }
 
-    public TSubt getSubt()
+    public PIdPontoAux getIdPontoAux()
     {
-        return this._subt_;
+        return this._idPontoAux_;
     }
 
-    public void setSubt(TSubt node)
+    public void setIdPontoAux(PIdPontoAux node)
     {
-        if(this._subt_ != null)
+        if(this._idPontoAux_ != null)
         {
-            this._subt_.parent(null);
+            this._idPontoAux_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._subt_ = node;
+        this._idPontoAux_ = node;
     }
 
-    public PExp2 getExp2()
+    public PChamada getChamada()
     {
-        return this._exp2_;
+        return this._chamada_;
     }
 
-    public void setExp2(PExp2 node)
+    public void setChamada(PChamada node)
     {
-        if(this._exp2_ != null)
+        if(this._chamada_ != null)
         {
-            this._exp2_.parent(null);
+            this._chamada_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._exp2_ = node;
+        this._chamada_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._subt_)
-            + toString(this._exp2_);
+            + toString(this._idPontoAux_)
+            + toString(this._chamada_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._subt_ == child)
+        if(this._idPontoAux_ == child)
         {
-            this._subt_ = null;
+            this._idPontoAux_ = null;
             return;
         }
 
-        if(this._exp2_ == child)
+        if(this._chamada_ == child)
         {
-            this._exp2_ = null;
+            this._chamada_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class ASubtPartExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._subt_ == oldChild)
+        if(this._idPontoAux_ == oldChild)
         {
-            setSubt((TSubt) newChild);
+            setIdPontoAux((PIdPontoAux) newChild);
             return;
         }
 
-        if(this._exp2_ == oldChild)
+        if(this._chamada_ == oldChild)
         {
-            setExp2((PExp2) newChild);
+            setChamada((PChamada) newChild);
             return;
         }
 

@@ -5,23 +5,19 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtPartExp1 extends PExp1
+public final class AExp1Exp1 extends PExp1
 {
-    private TSubt _subt_;
     private PExp2 _exp2_;
 
-    public ASubtPartExp1()
+    public AExp1Exp1()
     {
         // Constructor
     }
 
-    public ASubtPartExp1(
-        @SuppressWarnings("hiding") TSubt _subt_,
+    public AExp1Exp1(
         @SuppressWarnings("hiding") PExp2 _exp2_)
     {
         // Constructor
-        setSubt(_subt_);
-
         setExp2(_exp2_);
 
     }
@@ -29,40 +25,14 @@ public final class ASubtPartExp1 extends PExp1
     @Override
     public Object clone()
     {
-        return new ASubtPartExp1(
-            cloneNode(this._subt_),
+        return new AExp1Exp1(
             cloneNode(this._exp2_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtPartExp1(this);
-    }
-
-    public TSubt getSubt()
-    {
-        return this._subt_;
-    }
-
-    public void setSubt(TSubt node)
-    {
-        if(this._subt_ != null)
-        {
-            this._subt_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._subt_ = node;
+        ((Analysis) sw).caseAExp1Exp1(this);
     }
 
     public PExp2 getExp2()
@@ -94,7 +64,6 @@ public final class ASubtPartExp1 extends PExp1
     public String toString()
     {
         return ""
-            + toString(this._subt_)
             + toString(this._exp2_);
     }
 
@@ -102,12 +71,6 @@ public final class ASubtPartExp1 extends PExp1
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._subt_ == child)
-        {
-            this._subt_ = null;
-            return;
-        }
-
         if(this._exp2_ == child)
         {
             this._exp2_ = null;
@@ -121,12 +84,6 @@ public final class ASubtPartExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._subt_ == oldChild)
-        {
-            setSubt((TSubt) newChild);
-            return;
-        }
-
         if(this._exp2_ == oldChild)
         {
             setExp2((PExp2) newChild);

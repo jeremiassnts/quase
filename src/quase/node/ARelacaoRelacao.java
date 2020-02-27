@@ -5,26 +5,30 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtExp1 extends PExp1
+public final class ARelacaoRelacao extends PRelacao
 {
-    private PExp1 _left_;
-    private TSubt _subt_;
-    private PExp2 _right_;
+    private TClasse _classe_;
+    private TCid _left_;
+    private TFilhaClasse _filhaClasse_;
+    private TCid _right_;
 
-    public ASubtExp1()
+    public ARelacaoRelacao()
     {
         // Constructor
     }
 
-    public ASubtExp1(
-        @SuppressWarnings("hiding") PExp1 _left_,
-        @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp2 _right_)
+    public ARelacaoRelacao(
+        @SuppressWarnings("hiding") TClasse _classe_,
+        @SuppressWarnings("hiding") TCid _left_,
+        @SuppressWarnings("hiding") TFilhaClasse _filhaClasse_,
+        @SuppressWarnings("hiding") TCid _right_)
     {
         // Constructor
+        setClasse(_classe_);
+
         setLeft(_left_);
 
-        setSubt(_subt_);
+        setFilhaClasse(_filhaClasse_);
 
         setRight(_right_);
 
@@ -33,24 +37,50 @@ public final class ASubtExp1 extends PExp1
     @Override
     public Object clone()
     {
-        return new ASubtExp1(
+        return new ARelacaoRelacao(
+            cloneNode(this._classe_),
             cloneNode(this._left_),
-            cloneNode(this._subt_),
+            cloneNode(this._filhaClasse_),
             cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtExp1(this);
+        ((Analysis) sw).caseARelacaoRelacao(this);
     }
 
-    public PExp1 getLeft()
+    public TClasse getClasse()
+    {
+        return this._classe_;
+    }
+
+    public void setClasse(TClasse node)
+    {
+        if(this._classe_ != null)
+        {
+            this._classe_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._classe_ = node;
+    }
+
+    public TCid getLeft()
     {
         return this._left_;
     }
 
-    public void setLeft(PExp1 node)
+    public void setLeft(TCid node)
     {
         if(this._left_ != null)
         {
@@ -70,16 +100,16 @@ public final class ASubtExp1 extends PExp1
         this._left_ = node;
     }
 
-    public TSubt getSubt()
+    public TFilhaClasse getFilhaClasse()
     {
-        return this._subt_;
+        return this._filhaClasse_;
     }
 
-    public void setSubt(TSubt node)
+    public void setFilhaClasse(TFilhaClasse node)
     {
-        if(this._subt_ != null)
+        if(this._filhaClasse_ != null)
         {
-            this._subt_.parent(null);
+            this._filhaClasse_.parent(null);
         }
 
         if(node != null)
@@ -92,15 +122,15 @@ public final class ASubtExp1 extends PExp1
             node.parent(this);
         }
 
-        this._subt_ = node;
+        this._filhaClasse_ = node;
     }
 
-    public PExp2 getRight()
+    public TCid getRight()
     {
         return this._right_;
     }
 
-    public void setRight(PExp2 node)
+    public void setRight(TCid node)
     {
         if(this._right_ != null)
         {
@@ -124,8 +154,9 @@ public final class ASubtExp1 extends PExp1
     public String toString()
     {
         return ""
+            + toString(this._classe_)
             + toString(this._left_)
-            + toString(this._subt_)
+            + toString(this._filhaClasse_)
             + toString(this._right_);
     }
 
@@ -133,15 +164,21 @@ public final class ASubtExp1 extends PExp1
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._classe_ == child)
+        {
+            this._classe_ = null;
+            return;
+        }
+
         if(this._left_ == child)
         {
             this._left_ = null;
             return;
         }
 
-        if(this._subt_ == child)
+        if(this._filhaClasse_ == child)
         {
-            this._subt_ = null;
+            this._filhaClasse_ = null;
             return;
         }
 
@@ -158,21 +195,27 @@ public final class ASubtExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._left_ == oldChild)
+        if(this._classe_ == oldChild)
         {
-            setLeft((PExp1) newChild);
+            setClasse((TClasse) newChild);
             return;
         }
 
-        if(this._subt_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setSubt((TSubt) newChild);
+            setLeft((TCid) newChild);
+            return;
+        }
+
+        if(this._filhaClasse_ == oldChild)
+        {
+            setFilhaClasse((TFilhaClasse) newChild);
             return;
         }
 
         if(this._right_ == oldChild)
         {
-            setRight((PExp2) newChild);
+            setRight((TCid) newChild);
             return;
         }
 

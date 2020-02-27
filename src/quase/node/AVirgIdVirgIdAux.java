@@ -5,51 +5,51 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtPartExp1 extends PExp1
+public final class AVirgIdVirgIdAux extends PVirgIdAux
 {
-    private TSubt _subt_;
-    private PExp2 _exp2_;
+    private TVirg _virg_;
+    private TId _id_;
 
-    public ASubtPartExp1()
+    public AVirgIdVirgIdAux()
     {
         // Constructor
     }
 
-    public ASubtPartExp1(
-        @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp2 _exp2_)
+    public AVirgIdVirgIdAux(
+        @SuppressWarnings("hiding") TVirg _virg_,
+        @SuppressWarnings("hiding") TId _id_)
     {
         // Constructor
-        setSubt(_subt_);
+        setVirg(_virg_);
 
-        setExp2(_exp2_);
+        setId(_id_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASubtPartExp1(
-            cloneNode(this._subt_),
-            cloneNode(this._exp2_));
+        return new AVirgIdVirgIdAux(
+            cloneNode(this._virg_),
+            cloneNode(this._id_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtPartExp1(this);
+        ((Analysis) sw).caseAVirgIdVirgIdAux(this);
     }
 
-    public TSubt getSubt()
+    public TVirg getVirg()
     {
-        return this._subt_;
+        return this._virg_;
     }
 
-    public void setSubt(TSubt node)
+    public void setVirg(TVirg node)
     {
-        if(this._subt_ != null)
+        if(this._virg_ != null)
         {
-            this._subt_.parent(null);
+            this._virg_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._subt_ = node;
+        this._virg_ = node;
     }
 
-    public PExp2 getExp2()
+    public TId getId()
     {
-        return this._exp2_;
+        return this._id_;
     }
 
-    public void setExp2(PExp2 node)
+    public void setId(TId node)
     {
-        if(this._exp2_ != null)
+        if(this._id_ != null)
         {
-            this._exp2_.parent(null);
+            this._id_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._exp2_ = node;
+        this._id_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._subt_)
-            + toString(this._exp2_);
+            + toString(this._virg_)
+            + toString(this._id_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._subt_ == child)
+        if(this._virg_ == child)
         {
-            this._subt_ = null;
+            this._virg_ = null;
             return;
         }
 
-        if(this._exp2_ == child)
+        if(this._id_ == child)
         {
-            this._exp2_ = null;
+            this._id_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class ASubtPartExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._subt_ == oldChild)
+        if(this._virg_ == oldChild)
         {
-            setSubt((TSubt) newChild);
+            setVirg((TVirg) newChild);
             return;
         }
 
-        if(this._exp2_ == oldChild)
+        if(this._id_ == oldChild)
         {
-            setExp2((PExp2) newChild);
+            setId((TId) newChild);
             return;
         }
 

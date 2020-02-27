@@ -7,8 +7,9 @@ import quase.analysis.*;
 @SuppressWarnings("nls")
 public final class AAdcExp1 extends PExp1
 {
+    private PExp1 _left_;
     private TAdc _adc_;
-    private PExp _right_;
+    private PExp2 _right_;
 
     public AAdcExp1()
     {
@@ -16,10 +17,13 @@ public final class AAdcExp1 extends PExp1
     }
 
     public AAdcExp1(
+        @SuppressWarnings("hiding") PExp1 _left_,
         @SuppressWarnings("hiding") TAdc _adc_,
-        @SuppressWarnings("hiding") PExp _right_)
+        @SuppressWarnings("hiding") PExp2 _right_)
     {
         // Constructor
+        setLeft(_left_);
+
         setAdc(_adc_);
 
         setRight(_right_);
@@ -30,6 +34,7 @@ public final class AAdcExp1 extends PExp1
     public Object clone()
     {
         return new AAdcExp1(
+            cloneNode(this._left_),
             cloneNode(this._adc_),
             cloneNode(this._right_));
     }
@@ -38,6 +43,31 @@ public final class AAdcExp1 extends PExp1
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAAdcExp1(this);
+    }
+
+    public PExp1 getLeft()
+    {
+        return this._left_;
+    }
+
+    public void setLeft(PExp1 node)
+    {
+        if(this._left_ != null)
+        {
+            this._left_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._left_ = node;
     }
 
     public TAdc getAdc()
@@ -65,12 +95,12 @@ public final class AAdcExp1 extends PExp1
         this._adc_ = node;
     }
 
-    public PExp getRight()
+    public PExp2 getRight()
     {
         return this._right_;
     }
 
-    public void setRight(PExp node)
+    public void setRight(PExp2 node)
     {
         if(this._right_ != null)
         {
@@ -94,6 +124,7 @@ public final class AAdcExp1 extends PExp1
     public String toString()
     {
         return ""
+            + toString(this._left_)
             + toString(this._adc_)
             + toString(this._right_);
     }
@@ -102,6 +133,12 @@ public final class AAdcExp1 extends PExp1
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._left_ == child)
+        {
+            this._left_ = null;
+            return;
+        }
+
         if(this._adc_ == child)
         {
             this._adc_ = null;
@@ -121,6 +158,12 @@ public final class AAdcExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._left_ == oldChild)
+        {
+            setLeft((PExp1) newChild);
+            return;
+        }
+
         if(this._adc_ == oldChild)
         {
             setAdc((TAdc) newChild);
@@ -129,7 +172,7 @@ public final class AAdcExp1 extends PExp1
 
         if(this._right_ == oldChild)
         {
-            setRight((PExp) newChild);
+            setRight((PExp2) newChild);
             return;
         }
 

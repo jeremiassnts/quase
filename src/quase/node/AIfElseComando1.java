@@ -5,25 +5,29 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIfOnlyComando extends PComando
+public final class AIfElseComando1 extends PComando1
 {
     private TSe _se_;
     private TParEsq _parEsq_;
     private PExp _exp_;
     private TParDir _parDir_;
-    private PComando1 _comando1_;
+    private PComando1 _left_;
+    private TSenao _senao_;
+    private PComando2 _right_;
 
-    public AIfOnlyComando()
+    public AIfElseComando1()
     {
         // Constructor
     }
 
-    public AIfOnlyComando(
+    public AIfElseComando1(
         @SuppressWarnings("hiding") TSe _se_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TParDir _parDir_,
-        @SuppressWarnings("hiding") PComando1 _comando1_)
+        @SuppressWarnings("hiding") PComando1 _left_,
+        @SuppressWarnings("hiding") TSenao _senao_,
+        @SuppressWarnings("hiding") PComando2 _right_)
     {
         // Constructor
         setSe(_se_);
@@ -34,25 +38,31 @@ public final class AIfOnlyComando extends PComando
 
         setParDir(_parDir_);
 
-        setComando1(_comando1_);
+        setLeft(_left_);
+
+        setSenao(_senao_);
+
+        setRight(_right_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AIfOnlyComando(
+        return new AIfElseComando1(
             cloneNode(this._se_),
             cloneNode(this._parEsq_),
             cloneNode(this._exp_),
             cloneNode(this._parDir_),
-            cloneNode(this._comando1_));
+            cloneNode(this._left_),
+            cloneNode(this._senao_),
+            cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIfOnlyComando(this);
+        ((Analysis) sw).caseAIfElseComando1(this);
     }
 
     public TSe getSe()
@@ -155,16 +165,16 @@ public final class AIfOnlyComando extends PComando
         this._parDir_ = node;
     }
 
-    public PComando1 getComando1()
+    public PComando1 getLeft()
     {
-        return this._comando1_;
+        return this._left_;
     }
 
-    public void setComando1(PComando1 node)
+    public void setLeft(PComando1 node)
     {
-        if(this._comando1_ != null)
+        if(this._left_ != null)
         {
-            this._comando1_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -177,7 +187,57 @@ public final class AIfOnlyComando extends PComando
             node.parent(this);
         }
 
-        this._comando1_ = node;
+        this._left_ = node;
+    }
+
+    public TSenao getSenao()
+    {
+        return this._senao_;
+    }
+
+    public void setSenao(TSenao node)
+    {
+        if(this._senao_ != null)
+        {
+            this._senao_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._senao_ = node;
+    }
+
+    public PComando2 getRight()
+    {
+        return this._right_;
+    }
+
+    public void setRight(PComando2 node)
+    {
+        if(this._right_ != null)
+        {
+            this._right_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._right_ = node;
     }
 
     @Override
@@ -188,7 +248,9 @@ public final class AIfOnlyComando extends PComando
             + toString(this._parEsq_)
             + toString(this._exp_)
             + toString(this._parDir_)
-            + toString(this._comando1_);
+            + toString(this._left_)
+            + toString(this._senao_)
+            + toString(this._right_);
     }
 
     @Override
@@ -219,9 +281,21 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._comando1_ == child)
+        if(this._left_ == child)
         {
-            this._comando1_ = null;
+            this._left_ = null;
+            return;
+        }
+
+        if(this._senao_ == child)
+        {
+            this._senao_ = null;
+            return;
+        }
+
+        if(this._right_ == child)
+        {
+            this._right_ = null;
             return;
         }
 
@@ -256,9 +330,21 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._comando1_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setComando1((PComando1) newChild);
+            setLeft((PComando1) newChild);
+            return;
+        }
+
+        if(this._senao_ == oldChild)
+        {
+            setSenao((TSenao) newChild);
+            return;
+        }
+
+        if(this._right_ == oldChild)
+        {
+            setRight((PComando2) newChild);
             return;
         }
 

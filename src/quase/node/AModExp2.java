@@ -5,26 +5,26 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtExp1 extends PExp1
+public final class AModExp2 extends PExp2
 {
-    private PExp1 _left_;
-    private TSubt _subt_;
-    private PExp2 _right_;
+    private PExp2 _left_;
+    private TMod _mod_;
+    private PExp3 _right_;
 
-    public ASubtExp1()
+    public AModExp2()
     {
         // Constructor
     }
 
-    public ASubtExp1(
-        @SuppressWarnings("hiding") PExp1 _left_,
-        @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp2 _right_)
+    public AModExp2(
+        @SuppressWarnings("hiding") PExp2 _left_,
+        @SuppressWarnings("hiding") TMod _mod_,
+        @SuppressWarnings("hiding") PExp3 _right_)
     {
         // Constructor
         setLeft(_left_);
 
-        setSubt(_subt_);
+        setMod(_mod_);
 
         setRight(_right_);
 
@@ -33,24 +33,24 @@ public final class ASubtExp1 extends PExp1
     @Override
     public Object clone()
     {
-        return new ASubtExp1(
+        return new AModExp2(
             cloneNode(this._left_),
-            cloneNode(this._subt_),
+            cloneNode(this._mod_),
             cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtExp1(this);
+        ((Analysis) sw).caseAModExp2(this);
     }
 
-    public PExp1 getLeft()
+    public PExp2 getLeft()
     {
         return this._left_;
     }
 
-    public void setLeft(PExp1 node)
+    public void setLeft(PExp2 node)
     {
         if(this._left_ != null)
         {
@@ -70,16 +70,16 @@ public final class ASubtExp1 extends PExp1
         this._left_ = node;
     }
 
-    public TSubt getSubt()
+    public TMod getMod()
     {
-        return this._subt_;
+        return this._mod_;
     }
 
-    public void setSubt(TSubt node)
+    public void setMod(TMod node)
     {
-        if(this._subt_ != null)
+        if(this._mod_ != null)
         {
-            this._subt_.parent(null);
+            this._mod_.parent(null);
         }
 
         if(node != null)
@@ -92,15 +92,15 @@ public final class ASubtExp1 extends PExp1
             node.parent(this);
         }
 
-        this._subt_ = node;
+        this._mod_ = node;
     }
 
-    public PExp2 getRight()
+    public PExp3 getRight()
     {
         return this._right_;
     }
 
-    public void setRight(PExp2 node)
+    public void setRight(PExp3 node)
     {
         if(this._right_ != null)
         {
@@ -125,7 +125,7 @@ public final class ASubtExp1 extends PExp1
     {
         return ""
             + toString(this._left_)
-            + toString(this._subt_)
+            + toString(this._mod_)
             + toString(this._right_);
     }
 
@@ -139,9 +139,9 @@ public final class ASubtExp1 extends PExp1
             return;
         }
 
-        if(this._subt_ == child)
+        if(this._mod_ == child)
         {
-            this._subt_ = null;
+            this._mod_ = null;
             return;
         }
 
@@ -160,19 +160,19 @@ public final class ASubtExp1 extends PExp1
         // Replace child
         if(this._left_ == oldChild)
         {
-            setLeft((PExp1) newChild);
+            setLeft((PExp2) newChild);
             return;
         }
 
-        if(this._subt_ == oldChild)
+        if(this._mod_ == oldChild)
         {
-            setSubt((TSubt) newChild);
+            setMod((TMod) newChild);
             return;
         }
 
         if(this._right_ == oldChild)
         {
-            setRight((PExp2) newChild);
+            setRight((PExp3) newChild);
             return;
         }
 

@@ -5,51 +5,51 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASubtPartExp1 extends PExp1
+public final class ANaoExp5 extends PExp5
 {
-    private TSubt _subt_;
-    private PExp2 _exp2_;
+    private TNao _nao_;
+    private PExp5 _exp5_;
 
-    public ASubtPartExp1()
+    public ANaoExp5()
     {
         // Constructor
     }
 
-    public ASubtPartExp1(
-        @SuppressWarnings("hiding") TSubt _subt_,
-        @SuppressWarnings("hiding") PExp2 _exp2_)
+    public ANaoExp5(
+        @SuppressWarnings("hiding") TNao _nao_,
+        @SuppressWarnings("hiding") PExp5 _exp5_)
     {
         // Constructor
-        setSubt(_subt_);
+        setNao(_nao_);
 
-        setExp2(_exp2_);
+        setExp5(_exp5_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASubtPartExp1(
-            cloneNode(this._subt_),
-            cloneNode(this._exp2_));
+        return new ANaoExp5(
+            cloneNode(this._nao_),
+            cloneNode(this._exp5_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASubtPartExp1(this);
+        ((Analysis) sw).caseANaoExp5(this);
     }
 
-    public TSubt getSubt()
+    public TNao getNao()
     {
-        return this._subt_;
+        return this._nao_;
     }
 
-    public void setSubt(TSubt node)
+    public void setNao(TNao node)
     {
-        if(this._subt_ != null)
+        if(this._nao_ != null)
         {
-            this._subt_.parent(null);
+            this._nao_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._subt_ = node;
+        this._nao_ = node;
     }
 
-    public PExp2 getExp2()
+    public PExp5 getExp5()
     {
-        return this._exp2_;
+        return this._exp5_;
     }
 
-    public void setExp2(PExp2 node)
+    public void setExp5(PExp5 node)
     {
-        if(this._exp2_ != null)
+        if(this._exp5_ != null)
         {
-            this._exp2_.parent(null);
+            this._exp5_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class ASubtPartExp1 extends PExp1
             node.parent(this);
         }
 
-        this._exp2_ = node;
+        this._exp5_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._subt_)
-            + toString(this._exp2_);
+            + toString(this._nao_)
+            + toString(this._exp5_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._subt_ == child)
+        if(this._nao_ == child)
         {
-            this._subt_ = null;
+            this._nao_ = null;
             return;
         }
 
-        if(this._exp2_ == child)
+        if(this._exp5_ == child)
         {
-            this._exp2_ = null;
+            this._exp5_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class ASubtPartExp1 extends PExp1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._subt_ == oldChild)
+        if(this._nao_ == oldChild)
         {
-            setSubt((TSubt) newChild);
+            setNao((TNao) newChild);
             return;
         }
 
-        if(this._exp2_ == oldChild)
+        if(this._exp5_ == oldChild)
         {
-            setExp2((PExp2) newChild);
+            setExp5((PExp5) newChild);
             return;
         }
 

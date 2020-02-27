@@ -5,28 +5,28 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIfOnlyComando extends PComando
+public final class AWhileComando2 extends PComando2
 {
-    private TSe _se_;
+    private TEnquanto _enquanto_;
     private TParEsq _parEsq_;
     private PExp _exp_;
     private TParDir _parDir_;
-    private PComando1 _comando1_;
+    private PComando3 _comando3_;
 
-    public AIfOnlyComando()
+    public AWhileComando2()
     {
         // Constructor
     }
 
-    public AIfOnlyComando(
-        @SuppressWarnings("hiding") TSe _se_,
+    public AWhileComando2(
+        @SuppressWarnings("hiding") TEnquanto _enquanto_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TParDir _parDir_,
-        @SuppressWarnings("hiding") PComando1 _comando1_)
+        @SuppressWarnings("hiding") PComando3 _comando3_)
     {
         // Constructor
-        setSe(_se_);
+        setEnquanto(_enquanto_);
 
         setParEsq(_parEsq_);
 
@@ -34,37 +34,37 @@ public final class AIfOnlyComando extends PComando
 
         setParDir(_parDir_);
 
-        setComando1(_comando1_);
+        setComando3(_comando3_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AIfOnlyComando(
-            cloneNode(this._se_),
+        return new AWhileComando2(
+            cloneNode(this._enquanto_),
             cloneNode(this._parEsq_),
             cloneNode(this._exp_),
             cloneNode(this._parDir_),
-            cloneNode(this._comando1_));
+            cloneNode(this._comando3_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIfOnlyComando(this);
+        ((Analysis) sw).caseAWhileComando2(this);
     }
 
-    public TSe getSe()
+    public TEnquanto getEnquanto()
     {
-        return this._se_;
+        return this._enquanto_;
     }
 
-    public void setSe(TSe node)
+    public void setEnquanto(TEnquanto node)
     {
-        if(this._se_ != null)
+        if(this._enquanto_ != null)
         {
-            this._se_.parent(null);
+            this._enquanto_.parent(null);
         }
 
         if(node != null)
@@ -77,7 +77,7 @@ public final class AIfOnlyComando extends PComando
             node.parent(this);
         }
 
-        this._se_ = node;
+        this._enquanto_ = node;
     }
 
     public TParEsq getParEsq()
@@ -155,16 +155,16 @@ public final class AIfOnlyComando extends PComando
         this._parDir_ = node;
     }
 
-    public PComando1 getComando1()
+    public PComando3 getComando3()
     {
-        return this._comando1_;
+        return this._comando3_;
     }
 
-    public void setComando1(PComando1 node)
+    public void setComando3(PComando3 node)
     {
-        if(this._comando1_ != null)
+        if(this._comando3_ != null)
         {
-            this._comando1_.parent(null);
+            this._comando3_.parent(null);
         }
 
         if(node != null)
@@ -177,27 +177,27 @@ public final class AIfOnlyComando extends PComando
             node.parent(this);
         }
 
-        this._comando1_ = node;
+        this._comando3_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._se_)
+            + toString(this._enquanto_)
             + toString(this._parEsq_)
             + toString(this._exp_)
             + toString(this._parDir_)
-            + toString(this._comando1_);
+            + toString(this._comando3_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._se_ == child)
+        if(this._enquanto_ == child)
         {
-            this._se_ = null;
+            this._enquanto_ = null;
             return;
         }
 
@@ -219,9 +219,9 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._comando1_ == child)
+        if(this._comando3_ == child)
         {
-            this._comando1_ = null;
+            this._comando3_ = null;
             return;
         }
 
@@ -232,9 +232,9 @@ public final class AIfOnlyComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._se_ == oldChild)
+        if(this._enquanto_ == oldChild)
         {
-            setSe((TSe) newChild);
+            setEnquanto((TEnquanto) newChild);
             return;
         }
 
@@ -256,9 +256,9 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._comando1_ == oldChild)
+        if(this._comando3_ == oldChild)
         {
-            setComando1((PComando1) newChild);
+            setComando3((PComando3) newChild);
             return;
         }
 

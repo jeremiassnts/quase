@@ -5,66 +5,61 @@ package quase.node;
 import quase.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIfOnlyComando extends PComando
+public final class AChamadaChamada extends PChamada
 {
-    private TSe _se_;
+    private TId _id_;
     private TParEsq _parEsq_;
-    private PExp _exp_;
+    private PListaExp _listaExp_;
     private TParDir _parDir_;
-    private PComando1 _comando1_;
 
-    public AIfOnlyComando()
+    public AChamadaChamada()
     {
         // Constructor
     }
 
-    public AIfOnlyComando(
-        @SuppressWarnings("hiding") TSe _se_,
+    public AChamadaChamada(
+        @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
-        @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") TParDir _parDir_,
-        @SuppressWarnings("hiding") PComando1 _comando1_)
+        @SuppressWarnings("hiding") PListaExp _listaExp_,
+        @SuppressWarnings("hiding") TParDir _parDir_)
     {
         // Constructor
-        setSe(_se_);
+        setId(_id_);
 
         setParEsq(_parEsq_);
 
-        setExp(_exp_);
+        setListaExp(_listaExp_);
 
         setParDir(_parDir_);
-
-        setComando1(_comando1_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AIfOnlyComando(
-            cloneNode(this._se_),
+        return new AChamadaChamada(
+            cloneNode(this._id_),
             cloneNode(this._parEsq_),
-            cloneNode(this._exp_),
-            cloneNode(this._parDir_),
-            cloneNode(this._comando1_));
+            cloneNode(this._listaExp_),
+            cloneNode(this._parDir_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIfOnlyComando(this);
+        ((Analysis) sw).caseAChamadaChamada(this);
     }
 
-    public TSe getSe()
+    public TId getId()
     {
-        return this._se_;
+        return this._id_;
     }
 
-    public void setSe(TSe node)
+    public void setId(TId node)
     {
-        if(this._se_ != null)
+        if(this._id_ != null)
         {
-            this._se_.parent(null);
+            this._id_.parent(null);
         }
 
         if(node != null)
@@ -77,7 +72,7 @@ public final class AIfOnlyComando extends PComando
             node.parent(this);
         }
 
-        this._se_ = node;
+        this._id_ = node;
     }
 
     public TParEsq getParEsq()
@@ -105,16 +100,16 @@ public final class AIfOnlyComando extends PComando
         this._parEsq_ = node;
     }
 
-    public PExp getExp()
+    public PListaExp getListaExp()
     {
-        return this._exp_;
+        return this._listaExp_;
     }
 
-    public void setExp(PExp node)
+    public void setListaExp(PListaExp node)
     {
-        if(this._exp_ != null)
+        if(this._listaExp_ != null)
         {
-            this._exp_.parent(null);
+            this._listaExp_.parent(null);
         }
 
         if(node != null)
@@ -127,7 +122,7 @@ public final class AIfOnlyComando extends PComando
             node.parent(this);
         }
 
-        this._exp_ = node;
+        this._listaExp_ = node;
     }
 
     public TParDir getParDir()
@@ -155,49 +150,23 @@ public final class AIfOnlyComando extends PComando
         this._parDir_ = node;
     }
 
-    public PComando1 getComando1()
-    {
-        return this._comando1_;
-    }
-
-    public void setComando1(PComando1 node)
-    {
-        if(this._comando1_ != null)
-        {
-            this._comando1_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._comando1_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._se_)
+            + toString(this._id_)
             + toString(this._parEsq_)
-            + toString(this._exp_)
-            + toString(this._parDir_)
-            + toString(this._comando1_);
+            + toString(this._listaExp_)
+            + toString(this._parDir_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._se_ == child)
+        if(this._id_ == child)
         {
-            this._se_ = null;
+            this._id_ = null;
             return;
         }
 
@@ -207,21 +176,15 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._exp_ == child)
+        if(this._listaExp_ == child)
         {
-            this._exp_ = null;
+            this._listaExp_ = null;
             return;
         }
 
         if(this._parDir_ == child)
         {
             this._parDir_ = null;
-            return;
-        }
-
-        if(this._comando1_ == child)
-        {
-            this._comando1_ = null;
             return;
         }
 
@@ -232,9 +195,9 @@ public final class AIfOnlyComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._se_ == oldChild)
+        if(this._id_ == oldChild)
         {
-            setSe((TSe) newChild);
+            setId((TId) newChild);
             return;
         }
 
@@ -244,21 +207,15 @@ public final class AIfOnlyComando extends PComando
             return;
         }
 
-        if(this._exp_ == oldChild)
+        if(this._listaExp_ == oldChild)
         {
-            setExp((PExp) newChild);
+            setListaExp((PListaExp) newChild);
             return;
         }
 
         if(this._parDir_ == oldChild)
         {
             setParDir((TParDir) newChild);
-            return;
-        }
-
-        if(this._comando1_ == oldChild)
-        {
-            setComando1((PComando1) newChild);
             return;
         }
 
