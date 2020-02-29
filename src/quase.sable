@@ -63,7 +63,7 @@ Ignored Tokens
 Productions
 	
 	// GERAL
-	programa = {programa} familia def_classe+;
+	programa = {programa} familia [left]:def_classe [right]:def_classe*;
 
 	//FAMÍLIA E RELAÇÃO
 	familia = {familia} relacao familia_aux* ponto_virg
@@ -89,7 +89,7 @@ Productions
 	tipo_primitivo = {int} int_tipo
 		| {bool} bool_tipo
 		| {real} real_tipo;
-	tipo_classe = cid;
+	tipo_classe = {tipo_classe} cid;
 
 	// PROCEDIMENTOS
 	dec_procedimento = det_proc_inicial? proc id par_esq parametros par_dir comando;
