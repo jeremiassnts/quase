@@ -63,93 +63,170 @@ Ignored Tokens
 Productions
 	
 	// GERAL
-	programa = {programa} familia [left]:def_classe [right]:def_classe*;
+	programa {->a_programa} = {programa_com_familia} familia [left]:def_classe [right]:def_classe* {->New a_programa.programa_com_familia(familia.a_familia, [left.a_def_classe, right.a_def_classe])}
+		| {programa_sem_familia} [left]:def_classe [right]:def_classe* {->New a_programa.programa_sem_familia([left.a_def_classe, right.a_def_classe])};
 
 	//FAMÍLIA E RELAÇÃO
-	familia = {familia} relacao familia_aux* ponto_virg
-		| {vazio};
-	relacao = {relacao} classe [left]:cid filha_classe [right]:cid;
+	familia {->a_familia} = {familia} relacao familia_aux* ponto_virg {->New a_familia.familia(relacao.a_relacao, [familia_aux.a_familia_aux])};
+	relacao {->a_relacao} = {relacao} classe [left]:cid filha_classe [right]:cid {->New a_relacao.relacao(classe, left, filha_classe, right)};
 
 	// DEFINIÇÕES
-	def_classe = {def_classe} classe cid comeca atributos metodos termina;
+	def_classe {->a_def_classe} = {def_classe} classe cid comeca atributos metodos termina {->New a_def_classe.def_classe(atributos.a_atributos, metodos.a_metodos)};
 
 	//CHAMADAS
-	atributos = {atributos} dec_aux*;
-	metodos = {metodos} metodos_aux*;
+	atributos {->a_atributos} = {atributos} dec_aux* {->New a_atributos.atributos([dec_aux.a_dec_aux])};
+	metodos {->a_metodos} = {metodos} metodos_aux* {->New a_metodos.metodos([metodos_aux.a_metodos_aux])};
 
 	// DECLARAÇÕES
-	dec_obj = {dec_obj} obj cid id virg_id_aux* ponto_virg;
-	dec_var = {dec_var} var tipo id virg_id_aux* ponto_virg;
-	dec_cons = {dec_cons} cons tipo_primitivo inicializacao virg_inicializacao_aux* ponto_virg;
-	inicializacao = {inicializacao} id atr exp;
+	dec_obj {->a_dec_obj} = {dec_obj} obj cid id virg_id_aux* ponto_virg {->New a_dec_obj.dec_obj([virg_id_aux.a_virg_id_aux])};
+	dec_var {->a_dec_var} = {dec_var} var tipo id virg_id_aux* ponto_virg {->New a_dec_var.dec_var([virg_id_aux.a_virg_id_aux])};
+	dec_cons {->a_dec_cons} = {dec_cons} cons tipo_primitivo inicializacao virg_inicializacao_aux* ponto_virg {->New a_dec_cons.dec_cons(tipo_primitivo.a_tipo_primitivo, inicializacao.a_inicializacao, [virg_inicializacao_aux.a_virg_inicializacao_aux])};
+	inicializacao {->a_inicializacao} = {inicializacao} id atr exp {->New a_inicializacao.inicializacao(exp.a_exp)};
 
 	// TIPOS
-	tipo = {tipo_classe} tipo_classe
-		| {tipo_primitivo} tipo_primitivo;
-	tipo_primitivo = {int} int_tipo
-		| {bool} bool_tipo
-		| {real} real_tipo;
-	tipo_classe = {tipo_classe} cid;
+	tipo {->a_tipo} = {tipo_classe} tipo_classe {->New a_tipo.tipo_classe(tipo_classe.a_tipo_classe)}
+		| {tipo_primitivo} tipo_primitivo {->New a_tipo.tipo_primitivo(tipo_primitivo.a_tipo_primitivo)};
+	tipo_primitivo {->a_tipo_primitivo} = {int} int_tipo {->New a_tipo_primitivo.int(int_tipo)}
+		| {bool} bool_tipo {->New a_tipo_primitivo.bool(bool_tipo)}
+		| {real} real_tipo {->New a_tipo_primitivo.real(real_tipo)};
+	tipo_classe {->a_tipo_classe} = {tipo_classe} cid {->New a_tipo_classe.tipo_classe(cid)};
 
 	// PROCEDIMENTOS
-	dec_procedimento = det_proc_inicial? proc id par_esq parametros par_dir comando;
-	dec_funcao = func tipo id par_esq parametros par_dir exp;
-	parametros = {vazio}
-		| {parametros} parametro virg_parametro_aux*;
-	parametro = tipo id;
-	comando = {if_only} se par_esq exp par_dir comando1
-		| {comando1} comando1;
-	comando1 = {if_else} se par_esq exp par_dir [left]:comando1 senao [right]:comando2
-		| {comando2} comando2;
-	comando2 = {while} enquanto par_esq exp par_dir comando3
-		| {comando3} comando3;
-	comando3 = {atr} id igual_simples exp ponto_virg
-		| {chamada} id_ponto_aux? chamada ponto_virg
-		| {bloco} bloco;
+	dec_procedimento {->a_dec_procedimento} = {dec_procedimento_p} det_proc_inicial? proc id par_esq parametros par_dir comando {->New a_dec_procedimento.dec_procedimento_p(parametros.a_parametros, comando.a_comando)}
+		| {dec_procedimento} det_proc_inicial? proc id par_esq par_dir comando {->New a_dec_procedimento.dec_procedimento(comando.a_comando)};
+	dec_funcao {->a_dec_funcao} = {dec_funcao_p} func tipo id par_esq parametros par_dir exp {->New a_dec_funcao.dec_funcao_p(tipo.a_tipo, parametros.a_parametros, exp.a_exp)}
+		| {dec_funcao} func tipo id par_esq par_dir exp {->New a_dec_funcao.dec_funcao(tipo.a_tipo, exp.a_exp)};
+	parametros {->a_parametros} = {parametros} parametro virg_parametro_aux* {->New a_parametros.parametros(parametro.a_parametro, [virg_parametro_aux.a_virg_parametro_aux])};
+	parametro {->a_parametro} = {parametro} tipo id {->New a_parametro.parametro(tipo.a_tipo)};
+	comando {->a_comando} = {if_only} se par_esq exp par_dir comando1 {->New a_comando.if_only(exp.a_exp, comando1.a_comando)}
+		| {comando1} comando1 {->comando1.a_comando};
+	comando1 {->a_comando} = {if_else} se par_esq exp par_dir [left]:comando1 senao [right]:comando2 {->New a_comando.if_else(exp.a_exp, left.a_comando, right.a_comando)}
+		| {comando2} comando2 {->comando2.a_comando};
+	comando2 {->a_comando} = {while} enquanto par_esq exp par_dir comando3 {->New a_comando.while(exp.a_exp, comando3.a_comando)}
+		| {comando3} comando3 {->comando3.a_comando};
+	comando3 {->a_comando} = {atr} id igual_simples exp ponto_virg {->New a_comando.atr(exp.a_exp)}
+		| {chamada} id_ponto_aux? chamada ponto_virg {->New a_comando.chamada(id_ponto_aux.a_id_ponto_aux, chamada.a_chamada)}
+		| {bloco} bloco {->New a_comando.bloco(bloco.a_bloco)};
 	
 	// EXPRESSÕES
-	bloco = comeca dec_aux* comando* termina;
-	exp = {if} se par_esq [left]:exp par_dir entao [mid]:exp senao [right]:exp
-		| {exp1} exp1;
-	exp1 = {subt} [left]:exp1 subt [right]:exp2
-		| {adc} [left]:exp1 adc [right]:exp2
-		| {subt_part} subt exp2
-		| {exp1} exp2;
-	exp2 = {mult} [left]:exp2 mult [right]:exp3
-		| {div} [left]:exp2 div [right]:exp3
-		| {mod} [left]:exp2 mod [right]:exp3
-		| {exp3} exp3;
-	exp3 = {igual} [left]:exp3 igual_comp [right]:exp4
-		| {menor} [left]:exp3 menor [right]:exp4
-		| {exp4} exp4;
-	exp4 = {and} [left]:exp4 e_logico [right]:exp5
-		| {or} [left]:exp4 ou_logico [right]:exp5
-		| {exp5} exp5;
-	exp5 = {nao} nao exp5
-		| {exp6} exp6;
-	exp6 = {real} num_real
-		| {int} num_inteiro 
-		| {true} bool_verdadeiro 
-		| {false} bool_falso
-		| {par} par_esq exp par_dir
-		| {atributo} id_ponto_aux? atributo
-		| {chamada} id_ponto_aux? chamada
-		| {bloco_exp} bloco_exp;
-	bloco_exp = {bloco_exp} comeca dec_cons* exp termina;
-	chamada = {chamada} id par_esq lista_exp par_dir;
-	atributo = {id} id;
-	lista_exp = {vazio}
-		| {lista_exp} exp virg_exp_aux*;
+	bloco {->a_bloco} = {bloco} comeca dec_aux* comando* termina {-> New a_bloco.bloco([dec_aux.a_dec_aux], [comando.a_comando])};
+	exp {->a_exp} = {if} se par_esq [left]:exp par_dir entao [mid]:exp senao [right]:exp {->New a_exp.if(left.a_exp, mid.a_exp, right.a_exp)}
+		| {exp1} exp1 {->exp1.a_exp};
+	exp1 {->a_exp} = {subt} [left]:exp1 subt [right]:exp2 {->New a_exp.subt(left.a_exp, right.a_exp)}
+		| {adc} [left]:exp1 adc [right]:exp2 {->New a_exp.adc(left.a_exp, right.a_exp)}
+		| {subt_part} subt exp2 {->New a_exp.subt_part(exp2.a_exp)}
+		| {exp1} exp2 {->exp2.a_exp};
+	exp2 {->a_exp} = {mult} [left]:exp2 mult [right]:exp3 {->New a_exp.mult(left.a_exp, right.a_exp)}
+		| {div} [left]:exp2 div [right]:exp3 {->New a_exp.div(left.a_exp, right.a_exp)}
+		| {mod} [left]:exp2 mod [right]:exp3 {->New a_exp.mod(left.a_exp, right.a_exp)}
+		| {exp3} exp3 {->exp3.a_exp};
+	exp3 {->a_exp} = {igual} [left]:exp3 igual_comp [right]:exp4 {->New a_exp.igual(left.a_exp, right.a_exp)}
+		| {menor} [left]:exp3 menor [right]:exp4 {->New a_exp.menor(left.a_exp, right.a_exp)}
+		| {exp4} exp4 {->exp4.a_exp};
+	exp4 {->a_exp} = {and} [left]:exp4 e_logico [right]:exp5 {->New a_exp.and(left.a_exp, right.a_exp)}
+		| {or} [left]:exp4 ou_logico [right]:exp5 {->New a_exp.or(left.a_exp, right.a_exp)}
+		| {exp5} exp5 {->exp5.a_exp};
+	exp5 {->a_exp} = {nao} nao exp5 {->New a_exp.nao(exp5.a_exp)}
+		| {exp6} exp6 {->exp6.a_exp};
+	exp6 {->a_exp} = {real} num_real {->New a_exp.real(num_real)}
+		| {int} num_inteiro {->New a_exp.int(num_inteiro)}
+		| {true} bool_verdadeiro {->New a_exp.true(bool_verdadeiro)}
+		| {false} bool_falso {->New a_exp.false(bool_falso)}
+		| {par} par_esq exp par_dir {->New a_exp.par(exp.a_exp)}
+		| {atributo} id_ponto_aux? atributo {->New a_exp.atributo(id_ponto_aux.a_id_ponto_aux, atributo.a_atributo)}
+		| {chamada} id_ponto_aux? chamada {->New a_exp.chamada(id_ponto_aux.a_id_ponto_aux, chamada.a_chamada)}
+		| {bloco_exp} bloco_exp {->New a_exp.bloco_exp(bloco_exp.a_bloco_exp)};
+	bloco_exp {->a_bloco_exp} = {bloco_exp} comeca dec_cons* exp termina {->New a_bloco_exp.bloco_exp([dec_cons.a_dec_cons], exp.a_exp)};
+	chamada {->a_chamada} = {chamada_l} id par_esq lista_exp par_dir {->New a_chamada.chamada_l(lista_exp.a_lista_exp)}
+		| {chamada} id par_esq par_dir {->New a_chamada.chamada(id, par_esq, par_dir)};
+	atributo {->a_atributo} = {id} id {->New a_atributo.id(id)};
+	lista_exp {->a_lista_exp} = {lista_exp} exp virg_exp_aux* {->New a_lista_exp.lista_exp(exp.a_exp, [virg_exp_aux.a_virg_exp_aux])};
 
 	// AUXILIARES
-	id_ponto_aux = {id_ponto} id ponto;
-	virg_exp_aux = {virg_exp} virg exp;
-	virg_inicializacao_aux = {virg_inicializacao} virg inicializacao;
-	virg_id_aux = {virg_id} virg id;
-	dec_aux = {dec_obj} dec_obj
-		| {dec_var} dec_var
-		| {dec_cons} dec_cons;
-	virg_parametro_aux = virg parametro;
-	metodos_aux = {dec_procedimento} dec_procedimento
-		| {dec_funcao} dec_funcao;
-	familia_aux = {e_comercial_relacao} e_comercial relacao;
+	id_ponto_aux {->a_id_ponto_aux} = {id_ponto} id ponto {->New a_id_ponto_aux.id_ponto(id, ponto)};
+	virg_exp_aux {->a_virg_exp_aux} = {virg_exp} virg exp {->New a_virg_exp_aux.virg_exp(exp.a_exp)};
+	virg_inicializacao_aux {->a_virg_inicializacao_aux} = {virg_inicializacao} virg inicializacao {->New a_virg_inicializacao_aux.virg_inicializacao(inicializacao.a_inicializacao)};
+	virg_id_aux {->a_virg_id_aux} = {virg_id} virg id {->New a_virg_id_aux.virg_id(virg, id)};
+	dec_aux {->a_dec_aux} = {dec_obj} dec_obj {->New a_dec_aux.dec_obj(dec_obj.a_dec_obj)}
+		| {dec_var} dec_var {->New a_dec_aux.dec_var(dec_var.a_dec_var)}
+		| {dec_cons} dec_cons {->New a_dec_aux.dec_cons(dec_cons.a_dec_cons)};
+	virg_parametro_aux {->a_virg_parametro_aux} = {virg_parametro} virg parametro {->New a_virg_parametro_aux.virg_parametro(parametro.a_parametro)};
+	metodos_aux {->a_metodos_aux} = {dec_procedimento} dec_procedimento {->New a_metodos_aux.dec_procedimento(dec_procedimento.a_dec_procedimento)}
+		| {dec_funcao} dec_funcao {->New a_metodos_aux.dec_funcao(dec_funcao.a_dec_funcao)};
+	familia_aux {->a_familia_aux} = {e_comercial_relacao} e_comercial relacao {->New a_familia_aux.e_comercial_relacao(relacao.a_relacao)};
+
+Abstract Syntax Tree
+	
+	a_programa = {programa_com_familia} a_familia a_def_classe+
+		| {programa_sem_familia} a_def_classe+;
+	
+	a_familia = {familia} a_relacao a_familia_aux*;
+	a_relacao = {relacao} classe [left]:cid filha_classe [right]:cid;
+	
+	a_def_classe = {def_classe} a_atributos a_metodos;
+	a_atributos = {atributos} a_dec_aux*;
+	a_metodos = {metodos} a_metodos_aux*;
+
+	a_dec_obj = {dec_obj} a_virg_id_aux*;
+	a_dec_var = {dec_var} a_virg_id_aux*;
+	a_dec_cons = {dec_cons} a_tipo_primitivo a_inicializacao a_virg_inicializacao_aux*;
+	a_inicializacao = {inicializacao} a_exp;
+	
+	a_tipo = {tipo_classe} a_tipo_classe
+		| {tipo_primitivo} a_tipo_primitivo;
+	a_tipo_primitivo = {int} int_tipo
+		| {bool} bool_tipo
+		| {real} real_tipo;
+	a_tipo_classe = {tipo_classe} cid;
+
+	a_dec_procedimento = {dec_procedimento_p} a_parametros a_comando
+		| {dec_procedimento} a_comando;
+	a_dec_funcao = {dec_funcao_p} a_tipo a_parametros a_exp
+		| {dec_funcao} a_tipo a_exp;
+	a_parametros = {parametros} a_parametro a_virg_parametro_aux*;
+	a_parametro = {parametro} a_tipo;
+	a_comando = {if_only} a_exp a_comando
+		| {if_else} a_exp [left]:a_comando [right]:a_comando
+		| {while} a_exp a_comando
+		| {atr} a_exp
+		| {chamada} a_id_ponto_aux? a_chamada
+		| {bloco} a_bloco;
+
+	a_bloco = {bloco} a_dec_aux* a_comando*;
+	a_exp = {if} [left]:a_exp [mid]:a_exp [right]:a_exp
+		| {subt} [left]:a_exp [right]:a_exp
+		| {adc} [left]:a_exp [right]:a_exp
+		| {subt_part} a_exp
+		| {mult} [left]:a_exp [right]:a_exp
+		| {div} [left]:a_exp [right]:a_exp
+		| {mod} [left]:a_exp [right]:a_exp
+		| {igual} [left]:a_exp [right]:a_exp
+		| {menor} [left]:a_exp [right]:a_exp
+		| {and} [left]:a_exp [right]:a_exp
+		| {or} [left]:a_exp [right]:a_exp
+		| {nao} a_exp
+		| {real} num_real
+		| {int} num_inteiro
+		| {true} bool_verdadeiro
+		| {false} bool_falso
+		| {par} a_exp
+		| {atributo} a_id_ponto_aux? a_atributo
+		| {chamada} a_id_ponto_aux? a_chamada
+		| {bloco_exp} a_bloco_exp;
+	a_bloco_exp = {bloco_exp} a_dec_cons* a_exp;
+	a_chamada = {chamada_l} a_lista_exp
+		| {chamada} id par_esq par_dir;
+	a_atributo = {id} id;
+	a_lista_exp = {lista_exp} a_exp a_virg_exp_aux*;
+
+	a_id_ponto_aux = {id_ponto} id ponto;
+	a_virg_exp_aux = {virg_exp} a_exp;
+	a_virg_inicializacao_aux = {virg_inicializacao} a_inicializacao;
+	a_virg_id_aux = {virg_id} virg id;
+	a_dec_aux = {dec_obj} a_dec_obj
+		| {dec_var} a_dec_var
+		| {dec_cons} a_dec_cons;
+	a_virg_parametro_aux = {virg_parametro} a_parametro;
+	a_metodos_aux = {dec_procedimento} a_dec_procedimento
+		| {dec_funcao} a_dec_funcao;
+	a_familia_aux = {e_comercial_relacao} a_relacao;
